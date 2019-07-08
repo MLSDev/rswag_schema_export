@@ -1,3 +1,5 @@
+require "aws-sdk-s3"
+
 module RswagSchemaExport
   class Import
     def run

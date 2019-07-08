@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = "Export/Import your rswag schema.json during deploy with CI"
   spec.description   = "rswag_schema_export"
-  spec.homepage      = "https://mlsdev.com"
+  spec.homepage      = "https://github.com/MLSDev/rswag_schema_export"
   spec.license       = "MIT"
 
   spec.files         = Dir.chdir(File.expand_path(__dir__)) do

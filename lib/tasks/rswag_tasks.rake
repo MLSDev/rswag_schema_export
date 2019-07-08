@@ -1,4 +1,3 @@
-require "aws-sdk-s3"
 namespace :rswag do
   desc "Export schema.json to cloud storage"
   task schema_export: :environment do

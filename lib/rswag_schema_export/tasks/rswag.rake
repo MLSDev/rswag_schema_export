@@ -1,5 +1,3 @@
-require "aws-sdk-s3"
-
 namespace :rswag do
   desc "Import latest schema.json to app"
   task :schema_import do
