@@ -1,0 +1,52 @@
+---
+AllCops:
+  DisplayCopNames:   true
+  TargetRubyVersion: 2.6
+
+Metrics/LineLength:
+  Max: 120
+
+Style/Documentation:
+  Enabled: false
+
+Lint/AmbiguousBlockAssociation:
+  Enabled: false
+
+Naming/UncommunicativeMethodParamName:
+  MinNameLength: 2
+
+Metrics/BlockLength:
+  Enabled: false
+
+Style/Alias:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/DateTime:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/ModuleFunction:
+  Enabled: false
+
+Style/RaiseArgs:
+  Enabled: false
+
+Style/RescueModifier:
+  Exclude:
+    - '**/*_spec.rb'
+
+Style/Semicolon:
+  Exclude:
+    - '**/*_spec.rb'
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Style/SingleLineMethods:
+  Exclude:
+    - '**/*_spec.rb'

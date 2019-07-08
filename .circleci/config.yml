@@ -1,0 +1,25 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/ruby:2.6.2-node-browsers
+
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - rswag_schema_export-{{ checksum "Gemfile.lock" }}
+            - rswag_schema_export-
+
+      - run:
+          name: install dependencies
+          command: bundle check || bundle install
+
+      - save_cache:
+          paths:
+            - ./vendor/bundle
+          key: rswag_schema_export-{{ checksum "Gemfile.lock" }}
+
+      - run:
+          name: run tests
+          command: bundle exec rspec
