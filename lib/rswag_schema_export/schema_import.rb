@@ -2,14 +2,12 @@ require "aws-sdk-s3"
 
 module RswagSchemaExport
   class Import
-    def run
+    def run(stage = "develop")
       abort("RSWAG_SCHEMA_PATH is not defined. Example: tmp/swagger/swagger.json") unless ENV["RSWAG_SCHEMA_PATH"]
       abort("RSWAG_ACCESS_KEY_ID is not defined") unless ENV["RSWAG_ACCESS_KEY_ID"]
       abort("RSWAG_SECRET_ACCESS_KEY is not defined") unless ENV["RSWAG_SECRET_ACCESS_KEY"]
       abort("RSWAG_REGION is not defined") unless ENV["RSWAG_REGION"]
       abort("RSWAG_BUCKET is not defined") unless ENV["RSWAG_BUCKET"]
-
-      stage = ENV["STAGE"] || "develop"
       app_name = ENV["APP_NAME"] || "app"
 
       begin
@@ -22,7 +20,8 @@ module RswagSchemaExport
         versions = bucket.objects(prefix: "schemas/#{app_name}/#{stage}_schemas/versions").collect(&:key)
 
         last_schema_key = versions.max
-        bucket.object(last_schema_key).copy_to("#{ENV['RSWAG_BUCKET']}/schemas/#{app_name}/#{stage}_schemas/schema.json")
+        bucket.object(last_schema_key)
+              .copy_to("#{ENV['RSWAG_BUCKET']}/schemas/#{app_name}/#{stage}_schemas/schema.json")
         # Download schema.json
         if block_given?
           bucket.object("schemas/#{app_name}/#{stage}_schemas/schema.json").download_file("schema.json")
