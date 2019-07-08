@@ -1,5 +1,7 @@
 # [Beta] Rswag::Schema::Export
 
+[![CircleCI](https://circleci.com/gh/MLSDev/rswag_schema_export.svg?style=svg)](https://circleci.com/gh/MLSDev/rswag_schema_export)
+
 
 Export your schema.json file to AWS s3 bucket and import back after deploy. 
 
