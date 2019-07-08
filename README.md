@@ -1,4 +1,4 @@
-# Rswag::Schema::Export
+# [Beta] Rswag::Schema::Export
 
 
 Export your schema.json file to AWS s3 bucket and import back after deploy. 
