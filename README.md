@@ -1,4 +1,4 @@
-# [Beta] Rswag::Schema::Export
+# Rswag::Schema::Export
 
 [![CircleCI](https://circleci.com/gh/MLSDev/rswag_schema_export.svg?style=svg)](https://circleci.com/gh/MLSDev/rswag_schema_export)
 
