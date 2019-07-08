@@ -1,4 +1,5 @@
-require '../schema_import'
+require 'rswag_schema_export/schema_import'
+
 namespace :rswag do
   desc "Import latest schema.json to app"
   task :schema_import do
