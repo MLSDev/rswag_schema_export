@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rswag_schema_export (0.1.0)
+    rswag_schema_export (0.1.1)
       aws-sdk-s3 (~> 1)
 
 GEM
