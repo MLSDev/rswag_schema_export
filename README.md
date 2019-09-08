@@ -61,11 +61,17 @@ end
 Set up ENVIRONMENT VARIABLES on your CI
 
 ```bash
-# Required
-RSWAG_ACCESS_KEY_ID='' # Example: XXXXXXXXXX
-RSWAG_SECRET_ACCESS_KEY='' # Example: XXXXXXXXXXXXXXXXXXXXX
-RSWAG_REGION='' # Example: us-west-1
-RSWAG_BUCKET='' # Example: bucket-name
+# Required for AWS
+RSWAG_AWS_ACCESS_KEY_ID='' # Example: XXXXXXXXXX
+RSWAG_AWS_SECRET_ACCESS_KEY='' # Example: XXXXXXXXXXXXXXXXXXXXX
+RSWAG_AWS_REGION='' # Example: us-west-1
+RSWAG_AWS_BUCKET='' # Example: bucket-name
+
+# Required for AZURE
+
+RSWAG_AZURE_STORAGE_ACCOUNT_NAME='' # Example: XXXXX
+RSWAG_AZURE_STORAGE_ACCESS_KEY='' # Example: XXXXXXXXXXXXXXXXXXXXX
+RSWAG_AZURE_CONTAINER='' # Example: continter-name
 
 # Optional
 STAGE='' # Default: develop
@@ -76,6 +82,16 @@ APP_NAME='' # Default: app
 
 ![image](https://user-images.githubusercontent.com/2664467/60773983-c69bdf80-a115-11e9-9f46-57d835ba4561.png)
 
+
+## rswag_schema_export
+```diff
+# config/initializers/rswag_schema_export.rb
+RswagSchemaExport.configure do |c|
++  c.schemas = ['swagger/client/swagger.json', 'swagger/backoffice/swagger.json']
++  c.client = :aws
+end
+
+```
 
 ## rswag-api
 ```diff
