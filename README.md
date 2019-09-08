@@ -80,8 +80,7 @@ APP_NAME='' # Default: app
 
 ## Gitlab Variables
 
-![image](https://user-images.githubusercontent.com/2664467/60773983-c69bdf80-a115-11e9-9f46-57d835ba4561.png)
-
+![image](https://user-images.githubusercontent.com/2664467/64493266-bc699f00-d286-11e9-8827-e99d0eada9ce.png)
 
 ## rswag_schema_export
 ```diff
