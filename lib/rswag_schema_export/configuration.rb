@@ -1,5 +1,5 @@
 module RswagSchemaExport
   class Configuration
-    attr_accessor :shemas
+    attr_accessor :schemas
   end
 end

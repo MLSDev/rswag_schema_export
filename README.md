@@ -20,6 +20,7 @@ And then execute:
 Or install it yourself as:
 
     $ gem install rswag_schema_export
+    $ rails g rswag_schema_export:install
 
 ## Usage
 
@@ -61,7 +62,6 @@ Set up ENVIRONMENT VARIABLES on your CI
 
 ```bash
 # Required
-RSWAG_SCHEMA_PATH='' # Example: tmp/swagger/swagger.json
 RSWAG_ACCESS_KEY_ID='' # Example: XXXXXXXXXX
 RSWAG_SECRET_ACCESS_KEY='' # Example: XXXXXXXXXXXXXXXXXXXXX
 RSWAG_REGION='' # Example: us-west-1
