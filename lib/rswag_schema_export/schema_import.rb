@@ -4,9 +4,8 @@ module RswagSchemaExport
       abort("Set up RswagSchemaExport.config.schemas") unless RswagSchemaExport.config.schemas
 
       begin
+        client = ::RswagSchemaExport::Client.new(stage)
         RswagSchemaExport.config.schemas.map do |schema|
-          client = RswagSchemaExport::Client.new
-
           schema_id = schema.gsub(/[^a-zA-Z0-9\-]/, "_")
 
           # Copy latest version to root

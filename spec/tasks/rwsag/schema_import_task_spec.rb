@@ -11,11 +11,10 @@ describe "rswag:schema_import" do
     end
 
     before do
-      ENV["RSWAG_SCHEMA_PATH"] = "tmp/swagger/swagger.json"
       ENV["RSWAG_ACCESS_KEY_ID"] = "XXX"
-      ENV["RSWAG_SECRET_ACCESS_KEY"] = "XXX"
-      ENV["RSWAG_REGION"] = "us-east-1"
-      ENV["RSWAG_BUCKET"] = "bucket-name"
+      ENV["RSWAG_AWS_ACCESS_KEY_ID"] = "XXX"
+      ENV["RSWAG_AWS_REGION"] = "us-east-1"
+      ENV["RSWAG_AWS_BUCKET"] = "bucket-name"
     end
 
     it "download schema from s3 bucket" do

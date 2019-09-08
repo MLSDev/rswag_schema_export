@@ -1,13 +1,13 @@
-require 'azure/storage/blob'
+require "azure/storage/blob"
 require "aws-sdk-s3"
 
 module RswagSchemaExport
   class Client
     attr_reader :stage, :app_name
 
-    def ininializer
+    def initialize(stage)
       @app_name = ENV["APP_NAME"] || "app"
-      @stage = ENV["STAGE"] || "develop"
+      @stage = stage || "develop"
     end
 
     def aws_client?
@@ -22,8 +22,8 @@ module RswagSchemaExport
         abort("RSWAG_AWS_BUCKET is not defined") unless ENV["RSWAG_AWS_BUCKET"]
 
         @client ||= Aws::S3::Resource.new(access_key_id: ENV["RSWAG_AWS_ACCESS_KEY_ID"],
-                                              secret_access_key: ENV["RSWAG_AWS_SECRET_ACCESS_KEY"],
-                                              region: ENV["RSWAG_AWS_REGION"])
+                                          secret_access_key: ENV["RSWAG_AWS_SECRET_ACCESS_KEY"],
+                                          region: ENV["RSWAG_AWS_REGION"])
       else
         abort("RSWAG_AZURE_STORAGE_ACCOUNT_NAME is not defined") unless ENV["RSWAG_AZURE_STORAGE_ACCOUNT_NAME"]
         abort("RSWAG_AZURE_STORAGE_ACCESS_KEY is not defined") unless ENV["RSWAG_AZURE_STORAGE_ACCESS_KEY"]
@@ -38,7 +38,7 @@ module RswagSchemaExport
       if aws_client?
         client.bucket(ENV["RSWAG_AWS_BUCKET"]).object(key).upload_file(file)
       else
-        client.create_block_blob(ENV["RSWAG_AZURE_CONTAINER"], key, ::File.open(file) { |f| f.read })
+        client.create_block_blob(ENV["RSWAG_AZURE_CONTAINER"], key, ::File.open(file, &:read))
       end
     end
 
@@ -50,20 +50,17 @@ module RswagSchemaExport
       end
     end
 
-
     def bucket
-      @bucket ||= if aws_client?
-        client.bucket(ENV["RSWAG_BUCKET"])
-      end
+      @bucket ||= client.bucket(ENV["RSWAG_BUCKET"]) if aws_client?
     end
 
     def copy_latest_version_to_root(last_schema_key, schema_id)
       if aws_client?
         bucket.object(last_schema_key)
-            .copy_to("#{ENV['RSWAG_BUCKET']}/schemas/#{app_name}/#{stage}_#{schema_id}/schema.json")
+              .copy_to("#{ENV['RSWAG_BUCKET']}/schemas/#{app_name}/#{stage}_#{schema_id}/schema.json")
       else
         client.copy_blob(ENV["RSWAG_AZURE_CONTAINER"], "schemas/#{app_name}/#{stage}_#{schema_id}/schema.json",
-                         ENV["RSWAG_AZURE_CONTAINER"], last_schema_key )
+                         ENV["RSWAG_AZURE_CONTAINER"], last_schema_key)
       end
     end
 
@@ -72,7 +69,7 @@ module RswagSchemaExport
         bucket.object("schemas/#{app_name}/#{stage}_#{schema_id}/schema.json").download_file(path)
       else
         blob, content = client.get_blob(ENV["RSWAG_AZURE_CONTAINER"], "schemas/#{app_name}/#{stage}_#{schema_id}/schema.json")
-        ::File.open(path, 'wb') {|f| f.write(content)}
+        ::File.open(path, "wb") { |f| f.write(content) }
       end
     end
 
