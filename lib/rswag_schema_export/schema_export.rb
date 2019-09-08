@@ -12,7 +12,7 @@ module RswagSchemaExport
       end
 
       begin
-        client = ::RswagSchemaExport::Client.new
+        client = ::RswagSchemaExport::Client.new(ENV['STAGE'])
         RswagSchemaExport.config.schemas.map do |schema|
           schema_id = schema.gsub(/[^a-zA-Z0-9\-]/, "_")
           key = "schemas/#{client.app_name}/#{client.stage}_#{schema_id}/versions/#{Time.now.getutc.iso8601}.json"
