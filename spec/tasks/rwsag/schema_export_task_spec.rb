@@ -11,11 +11,11 @@ describe "rswag:schema_export" do
     end
 
     before do
-      ENV["RSWAG_SCHEMA_PATH"] = "tmp/swagger/swagger.json"
-      ENV["RSWAG_ACCESS_KEY_ID"] = "XXX"
-      ENV["RSWAG_SECRET_ACCESS_KEY"] = "XXX"
-      ENV["RSWAG_REGION"] = "us-east-1"
-      ENV["RSWAG_BUCKET"] = "bucket-name"
+      allow(RswagSchemaExport.config).to receive(:schemas).and_return(["1.json"])
+      ENV["RSWAG_AWS_ACCESS_KEY_ID"] = "XXX"
+      ENV["RSWAG_AWS_SECRET_ACCESS_KEY"] = "XXX"
+      ENV["RSWAG_AWS_REGION"] = "us-east-1"
+      ENV["RSWAG_AWS_BUCKET"] = "bucket-name"
     end
 
     context "not found schema file" do
@@ -25,16 +25,18 @@ describe "rswag:schema_export" do
       end
     end
 
-    context "upload schema to s3 bucket" do
+    context "Upload latest version to the cloud" do
       it do
         allow(File).to receive(:file?).and_return(true)
-        s3 = double(:s3)
-        object = double(:object, upload_file: nil)
-        bucket = double(:bucket, object: nil)
-        expect(Aws::S3::Resource).to receive(:new).and_return(s3)
-        expect(s3).to receive(:bucket).and_return(bucket)
-        expect(bucket).to receive(:object).and_return(object)
-
+        allow(Time).to receive_message_chain(:now, :getutc, :iso8601).and_return("2019-09-09T20:14:08Z")
+        expect(::RswagSchemaExport::Client).to receive(:new) do
+          double.tap do |client|
+            allow(client).to receive(:app_name).and_return("app")
+            allow(client).to receive(:stage).and_return("develop")
+            expect(client).to receive(:upload_file)
+              .with("schemas/app/develop_1_json/versions/2019-09-09T20:14:08Z.json", "1.json")
+          end
+        end
         run_rake_task
       end
     end

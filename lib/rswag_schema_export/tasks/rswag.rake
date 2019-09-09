@@ -6,7 +6,9 @@ namespace :rswag do
     on roles(:all) do
       stage = ENV["STAGE"] || fetch(:stage, "develop")
       RswagSchemaExport::Import.new.run(stage) do
-        upload!("schema.json", "#{current_path}/#{ENV['RSWAG_SCHEMA_PATH']}")
+        RswagSchemaExport.config.shemas.map do |schema|
+          upload!(schema, "#{current_path}/#{schema}")
+        end
       end
     end
   end

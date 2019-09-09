@@ -20,6 +20,7 @@ And then execute:
 Or install it yourself as:
 
     $ gem install rswag_schema_export
+    $ rails g rswag_schema_export:install
 
 ## Usage
 
@@ -44,7 +45,7 @@ stages:
 
 ```diff
 # config/deploy.rb
-+ folders = %w[tmp/swagger]
++ folders = %w[swagger]
 namespace :deploy do
   after :restart, :clear_cache do
     on roles(:web), in: :groups, limit: 3, wait: 10 do
@@ -60,12 +61,17 @@ end
 Set up ENVIRONMENT VARIABLES on your CI
 
 ```bash
-# Required
-RSWAG_SCHEMA_PATH='' # Example: tmp/swagger/swagger.json
-RSWAG_ACCESS_KEY_ID='' # Example: XXXXXXXXXX
-RSWAG_SECRET_ACCESS_KEY='' # Example: XXXXXXXXXXXXXXXXXXXXX
-RSWAG_REGION='' # Example: us-west-1
-RSWAG_BUCKET='' # Example: bucket-name
+# Required for AWS
+RSWAG_AWS_ACCESS_KEY_ID='' # Example: XXXXXXXXXX
+RSWAG_AWS_SECRET_ACCESS_KEY='' # Example: XXXXXXXXXXXXXXXXXXXXX
+RSWAG_AWS_REGION='' # Example: us-west-1
+RSWAG_AWS_BUCKET='' # Example: bucket-name
+
+# Required for AZURE
+
+RSWAG_AZURE_STORAGE_ACCOUNT_NAME='' # Example: XXXXX
+RSWAG_AZURE_STORAGE_ACCESS_KEY='' # Example: XXXXXXXXXXXXXXXXXXXXX
+RSWAG_AZURE_CONTAINER='' # Example: continter-name
 
 # Optional
 STAGE='' # Default: develop
@@ -74,23 +80,23 @@ APP_NAME='' # Default: app
 
 ## Gitlab Variables
 
-![image](https://user-images.githubusercontent.com/2664467/60773983-c69bdf80-a115-11e9-9f46-57d835ba4561.png)
+![image](https://user-images.githubusercontent.com/2664467/64493266-bc699f00-d286-11e9-8827-e99d0eada9ce.png)
 
+## rswag_schema_export
+```diff
+# config/initializers/rswag_schema_export.rb
+RswagSchemaExport.configure do |c|
++  c.schemas = ['swagger/client/swagger.json', 'swagger/backoffice/swagger.json']
++  c.client = :aws
+end
+
+```
 
 ## rswag-api
 ```diff
 # config/initializers/rswag_api.rb
 Rswag::Api.configure do |c|
-+  c.swagger_root = Rails.root.to_s + '/tmp/swagger'
-end
-```
-
-## rswag-specs
-```diff
-# spec/swagger_helper.rb
-
-RSpec.configure do |config|
-+  config.swagger_root = Rails.root.to_s + '/tmp/swagger'
++  c.swagger_root = Rails.root.to_s + '/swagger'
 end
 ```
 
