@@ -29,7 +29,7 @@ Gem contains two rake tasks:
     $ rake rswag:schema_export
     $ rake rswag:schema_import
 
-## Lifecicle
+## Lifecycle
 ```bash
 # Pipeline
 stages:
