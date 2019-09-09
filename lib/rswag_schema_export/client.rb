@@ -10,11 +10,7 @@ module RswagSchemaExport
       @stage = stage || "develop"
     end
 
-    def aws_client?
-      RswagSchemaExport.config.client&.to_sym == :aws
-    end
-
-    def client
+    def client # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity:
       if aws_client?
         abort("RSWAG_AWS_ACCESS_KEY_ID is not defined") unless ENV["RSWAG_AWS_ACCESS_KEY_ID"]
         abort("RSWAG_AWS_SECRET_ACCESS_KEY is not defined") unless ENV["RSWAG_AWS_SECRET_ACCESS_KEY"]
@@ -29,8 +25,10 @@ module RswagSchemaExport
         abort("RSWAG_AZURE_STORAGE_ACCESS_KEY is not defined") unless ENV["RSWAG_AZURE_STORAGE_ACCESS_KEY"]
         abort("RSWAG_AZURE_CONTAINER is not defined") unless ENV["RSWAG_AZURE_CONTAINER"]
 
-        @client = Azure::Storage::Blob::BlobService.create(storage_account_name: ENV["RSWAG_AZURE_STORAGE_ACCOUNT_NAME"],
-                                                           storage_access_key: ENV["RSWAG_AZURE_STORAGE_ACCESS_KEY"])
+        @client = Azure::Storage::Blob::BlobService.create(
+          storage_account_name: ENV["RSWAG_AZURE_STORAGE_ACCOUNT_NAME"],
+          storage_access_key: ENV["RSWAG_AZURE_STORAGE_ACCESS_KEY"]
+        )
       end
     end
 
@@ -46,12 +44,9 @@ module RswagSchemaExport
       if aws_client?
         bucket.objects(prefix: "schemas/#{app_name}/#{stage}_#{schema_id}/versions").collect(&:key)
       else
-        client.list_blobs(ENV["RSWAG_AZURE_CONTAINER"], prefix: "schemas/#{app_name}/#{stage}_#{schema_id}/versions").collect(&:name)
+        prefix = "schemas/#{app_name}/#{stage}_#{schema_id}/versions"
+        client.list_blobs(ENV["RSWAG_AZURE_CONTAINER"], prefix: prefix).collect(&:name)
       end
-    end
-
-    def bucket
-      @bucket ||= client.bucket(ENV["RSWAG_BUCKET"]) if aws_client?
     end
 
     def copy_latest_version_to_root(last_schema_key, schema_id)
@@ -68,7 +63,8 @@ module RswagSchemaExport
       if aws_client?
         bucket.object("schemas/#{app_name}/#{stage}_#{schema_id}/schema.json").download_file(path)
       else
-        blob, content = client.get_blob(ENV["RSWAG_AZURE_CONTAINER"], "schemas/#{app_name}/#{stage}_#{schema_id}/schema.json")
+        _blob, content = client.get_blob(ENV["RSWAG_AZURE_CONTAINER"],
+                                         "schemas/#{app_name}/#{stage}_#{schema_id}/schema.json")
         ::File.open(path, "wb") { |f| f.write(content) }
       end
     end
@@ -80,6 +76,16 @@ module RswagSchemaExport
       else
         old_versions.each { |key| client.delete_blob(ENV["RSWAG_AZURE_CONTAINER"], key) }
       end
+    end
+
+    private
+
+    def bucket
+      @bucket ||= client.bucket(ENV["RSWAG_AWS_BUCKET"]) if aws_client?
+    end
+
+    def aws_client?
+      RswagSchemaExport.config.client&.to_sym == :aws
     end
   end
 end

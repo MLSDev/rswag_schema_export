@@ -1,6 +1,6 @@
 module RswagSchemaExport
   class Import
-    def run(stage = "develop")
+    def run(stage = "develop") # rubocop:disable Metrics/AbcSize:
       abort("Set up RswagSchemaExport.config.schemas") unless RswagSchemaExport.config.schemas
 
       begin

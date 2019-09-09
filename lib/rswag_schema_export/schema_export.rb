@@ -1,6 +1,6 @@
 module RswagSchemaExport
   class Export
-    def run
+    def run # rubocop:disable Metrics/AbcSize
       abort("Set up RswagSchemaExport.config.schemas") unless RswagSchemaExport.config.schemas
 
       RswagSchemaExport.config.schemas.map do |schema|
@@ -12,11 +12,11 @@ module RswagSchemaExport
       end
 
       begin
-        client = ::RswagSchemaExport::Client.new(ENV['STAGE'])
+        client = ::RswagSchemaExport::Client.new(ENV["STAGE"])
         RswagSchemaExport.config.schemas.map do |schema|
           schema_id = schema.gsub(/[^a-zA-Z0-9\-]/, "_")
           key = "schemas/#{client.app_name}/#{client.stage}_#{schema_id}/versions/#{Time.now.getutc.iso8601}.json"
-          # Upload latest version to app
+          # Upload latest version to the cloud
           client.upload_file(key, schema)
 
           puts("Schema has been successfully exported. Stage: #{client.stage} | Key: #{key}")
