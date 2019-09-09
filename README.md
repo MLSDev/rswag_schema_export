@@ -45,7 +45,7 @@ stages:
 
 ```diff
 # config/deploy.rb
-+ folders = %w[tmp/swagger]
++ folders = %w[swagger]
 namespace :deploy do
   after :restart, :clear_cache do
     on roles(:web), in: :groups, limit: 3, wait: 10 do
@@ -96,16 +96,7 @@ end
 ```diff
 # config/initializers/rswag_api.rb
 Rswag::Api.configure do |c|
-+  c.swagger_root = Rails.root.to_s + '/tmp/swagger'
-end
-```
-
-## rswag-specs
-```diff
-# spec/swagger_helper.rb
-
-RSpec.configure do |config|
-+  config.swagger_root = Rails.root.to_s + '/tmp/swagger'
++  c.swagger_root = Rails.root.to_s + '/swagger'
 end
 ```
 
