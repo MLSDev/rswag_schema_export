@@ -29,21 +29,17 @@ RswagSchemaExport.configure do |c|
 +  c.schemas = ['swagger/client/swagger.json', 'swagger/backoffice/swagger.json']
 +  c.client = :aws
 end
-
-## Usage
-
-Gem contains two rake tasks:
-
-    $ rake rswag:schema_export
-    $ rake rswag:schema_import
-
 ```
-## Capistrano
+## Lifecicle
+```
+swaggerize -> export to cloud storage -> deploy -> import from cloud storage
+```
+
+## Export example with CI
 ```yaml
+.gitlab-ci.yml
 stages:
   - test
-  - lint
-  - security
   - export_api_doc
   - deploy
 test:
@@ -68,10 +64,19 @@ rswag_schema_export:
   script:
   - rails db:schema:load rswag:specs:swaggerize RAILS_ENV=test
   - STAGE=develop rails rswag:schema_export
+develop:
+  dependencies: []
+  stage: deploy
+  tags:
+  - shell-ruby
+  script:
+  - bundle exec cap develop deploy
+  only:
+  - develop
 ```
 
 
-## Capistrano
+## Import example with Capistrano
 
 ```diff
 # Capfile
