@@ -85,8 +85,7 @@ require 'rswag_schema_export/capistrano'
 
 ```diff
 # config/deploy.rb
-+ append :linked_dirs, "swagger",
-end
++ append :linked_dirs, "swagger"
 ````
 
 
