@@ -52,7 +52,7 @@ module RswagSchemaExport
     def copy_latest_version_to_root(last_schema_key, schema_id)
       if aws_client?
         bucket.object(last_schema_key)
-              .copy_to("#{ENV['RSWAG_BUCKET']}/schemas/#{app_name}/#{stage}_#{schema_id}/schema.json")
+              .copy_to("#{ENV['RSWAG_AWS_BUCKET']}/schemas/#{app_name}/#{stage}_#{schema_id}/schema.json")
       else
         client.copy_blob(ENV["RSWAG_AZURE_CONTAINER"], "schemas/#{app_name}/#{stage}_#{schema_id}/schema.json",
                          ENV["RSWAG_AZURE_CONTAINER"], last_schema_key)
@@ -60,6 +60,7 @@ module RswagSchemaExport
     end
 
     def download_file(schema_id, path)
+      FileUtils.mkdir_p(path.split('/')[0...-1].join('/'))
       if aws_client?
         bucket.object("schemas/#{app_name}/#{stage}_#{schema_id}/schema.json").download_file(path)
       else

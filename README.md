@@ -22,39 +22,73 @@ Or install it yourself as:
     $ gem install rswag_schema_export
     $ rails g rswag_schema_export:install
 
-## Usage
-
-Gem contains two rake tasks:
-
-    $ rake rswag:schema_export
-    $ rake rswag:schema_import
-
-## Lifecycle
-```bash
-# Pipeline
-stages:
-  staging:
-    - rspec spec
-    - rails rswag:specs:swaggerize
-    - STAGE=staging rails rswag:schema_export
-    - cap staging deploy
-    - STAGE=staging rails rswag:schema_import
+## Set up
+```diff
+# config/initializers/rswag_schema_export.rb
+RswagSchemaExport.configure do |c|
++  c.schemas = ['swagger/client/swagger.json', 'swagger/backoffice/swagger.json']
++  c.client = :aws
+end
+```
+## Lifecicle
+```
+swaggerize -> export to cloud storage -> deploy -> import from cloud storage
 ```
 
-## Capistrano
+## Export example with CI
+```yaml
+.gitlab-ci.yml
+stages:
+  - test
+  - export_api_doc
+  - deploy
+test:
+  tags:
+  - shell-ruby
+  before_script:
+    - RAILS_ENV=test bundle exec rails db:create db:migrate
+  script:
+    - rspec
+  artifacts:
+    paths:
+      - coverage/
+  after_script:
+    - RAILS_ENV=test bundle exec rails db:drop
+rswag_schema_export:
+  dependencies: []
+  stage: export_api_doc
+  before_script:
+    - RAILS_ENV=test bundle exec rails db:create
+  tags:
+  - shell-ruby
+  script:
+  - rails db:schema:load rswag:specs:swaggerize RAILS_ENV=test
+  - STAGE=develop rails rswag:schema_export
+develop:
+  dependencies: []
+  stage: deploy
+  tags:
+  - shell-ruby
+  script:
+  - bundle exec cap develop deploy
+  only:
+  - develop
+```
+
+
+## Import example with Capistrano
+
+```diff
+# Capfile
+require 'rswag_schema_export/capistrano'
+```
 
 ```diff
 # config/deploy.rb
-+ folders = %w[swagger]
-namespace :deploy do
-  after :restart, :clear_cache do
-    on roles(:web), in: :groups, limit: 3, wait: 10 do
-    
-    end
-  end
-+  after :finishing, 'rswag:schema_import'
++ append :linked_dirs, "swagger",
 end
 ````
+
 
 ## Configuration
 
@@ -81,16 +115,6 @@ APP_NAME='' # Default: app
 ## Gitlab Variables
 
 ![image](https://user-images.githubusercontent.com/2664467/64493266-bc699f00-d286-11e9-8827-e99d0eada9ce.png)
-
-## rswag_schema_export
-```diff
-# config/initializers/rswag_schema_export.rb
-RswagSchemaExport.configure do |c|
-+  c.schemas = ['swagger/client/swagger.json', 'swagger/backoffice/swagger.json']
-+  c.client = :aws
-end
-
-```
 
 ## rswag-api
 ```diff
