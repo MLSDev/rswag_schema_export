@@ -1,15 +1,14 @@
-require "rswag_schema_export/schema_import"
-
 namespace :rswag do
-  desc "Import latest schema.json to app"
+  desc 'schema_import'
   task :schema_import do
-    on roles(:all) do
-      stage = ENV["STAGE"] || fetch(:stage, "develop")
-      RswagSchemaExport::Import.new.run(stage) do
-        RswagSchemaExport.config.shemas.map do |schema|
-          upload!(schema, "#{current_path}/#{schema}")
+    on roles(fetch(:rswag_schema_export_roles, :app)) do
+      within release_path do
+        with rails_env: fetch(:rails_env) do
+          execute :rake, 'rswag:schema_import'
         end
       end
     end
   end
 end
+
+after  'deploy:finishing', 'rswag:schema_import'

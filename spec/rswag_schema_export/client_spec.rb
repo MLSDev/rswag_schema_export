@@ -68,7 +68,7 @@ describe RswagSchemaExport::Client do
               double.tap do |bucket|
                 expect(bucket).to receive(:object).with("key") do
                   double.tap do |object|
-                    expect(object).to receive(:copy_to).with("/schemas/app/develop_4334/schema.json")
+                    expect(object).to receive(:copy_to).with("bucket-name/schemas/app/develop_4334/schema.json")
                   end
                 end
               end
