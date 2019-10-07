@@ -30,7 +30,7 @@ RswagSchemaExport.configure do |c|
 +  c.client = :aws
 end
 ```
-## Lifecicle
+## Lifecycle
 ```
 swaggerize -> export to cloud storage -> deploy -> import from cloud storage
 ```
