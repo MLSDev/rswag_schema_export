@@ -11,4 +11,4 @@ namespace :rswag do
   end
 end
 
-after  'deploy:finishing', 'rswag:schema_import'
+after  'deploy:published', 'rswag:schema_import'
