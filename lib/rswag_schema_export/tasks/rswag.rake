@@ -4,7 +4,7 @@ namespace :rswag do
     on roles(fetch(:rswag_schema_export_roles, :app)) do
       within current_path do
         with rails_env: fetch(:rails_env) do
-          execute :rake, 'rswag:schema_import'
+          execute :rake, "rswag:schema_import STAGE=#{fetch(:rswag_schema_export_stage, 'develop')}"
         end
       end
     end
