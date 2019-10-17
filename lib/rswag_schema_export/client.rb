@@ -60,7 +60,7 @@ module RswagSchemaExport
     end
 
     def download_file(schema_id, path)
-      FileUtils.mkdir_p(path.split('/')[0...-1].join('/'))
+      FileUtils.mkdir_p(path.split("/")[0...-1].join("/"))
       if aws_client?
         bucket.object("schemas/#{app_name}/#{stage}_#{schema_id}/schema.json").download_file(path)
       else

@@ -1,6 +1,8 @@
 namespace :rswag do
-  desc 'schema_import'
+  desc "schema_import"
   task :schema_import do
+    return if fetch(:rswag_schema_export_disable_import, false)
+
     on roles(fetch(:rswag_schema_export_roles, :app)) do
       within current_path do
         with rails_env: fetch(:rails_env) do
@@ -11,4 +13,4 @@ namespace :rswag do
   end
 end
 
-after  'deploy:finished', 'rswag:schema_import'
+after "deploy:finished", "rswag:schema_import"
