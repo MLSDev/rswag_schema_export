@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rswag_schema_export (0.2.1)
+    rswag_schema_export (0.2.3)
       aws-sdk-s3 (~> 1)
       azure-storage-blob (~> 1.1)
 
