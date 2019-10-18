@@ -1,10 +1,10 @@
 module RswagSchemaExport
   class Import
-    def run(stage = "develop") # rubocop:disable Metrics/AbcSize:
+    def run
       abort("Set up RswagSchemaExport.config.schemas") unless RswagSchemaExport.config.schemas
 
       begin
-        client = ::RswagSchemaExport::Client.new(stage)
+        client = ::RswagSchemaExport::Client.new(ENV["STAGE"])
         RswagSchemaExport.config.schemas.map do |schema|
           schema_id = schema.gsub(/[^a-zA-Z0-9\-]/, "_")
 
