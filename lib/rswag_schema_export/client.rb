@@ -1,4 +1,4 @@
-require "azure/storage/blob"
+require "azure/storage"
 require "aws-sdk-s3"
 
 module RswagSchemaExport

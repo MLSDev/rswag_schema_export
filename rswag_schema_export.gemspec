@@ -20,8 +20,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "aws-sdk-s3", "~> 1"
-  spec.add_dependency "azure-storage-blob", "~> 1.1"
-
+  spec.add_dependency 'azure-storage', '= 0.11.5.preview'
   spec.add_development_dependency "bundler", "~> 1.17"
   spec.add_development_dependency "pry"
   spec.add_development_dependency "railties", ">= 3.1", "< 6.0"
