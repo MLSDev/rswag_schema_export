@@ -24,7 +24,7 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "bundler", "~> 2.0"
   spec.add_development_dependency "pry"
-  spec.add_development_dependency "railties", ">= 3.1", "< 6.0"
+  spec.add_development_dependency "railties", ">= 3.1", "< 7.0"
   spec.add_development_dependency "rake", "~> 13.0"
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "rubocop"
