@@ -93,6 +93,13 @@ require 'rswag_schema_export/capistrano'
 + set :rswag_schema_export_disable_import, true
 ```
 
+## Slack notifications
+
+```diff
+# config/deploy/production.rb
++ set :rswag_schema_export_slack_webhook_url, ENV.fetch('SLACK_WEBHOOK_URL')
+```
+
 ## Configuration
 
 Set up ENVIRONMENT VARIABLES on your CI

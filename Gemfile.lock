@@ -4,6 +4,7 @@ PATH
     rswag_schema_export (0.2.4)
       aws-sdk-s3 (~> 1)
       azure-storage-blob (~> 1.1)
+      slack-notifier (~> 2.3.2)
       swagger-diff (~> 1.1.2)
 
 GEM
@@ -134,6 +135,7 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
+    slack-notifier (2.3.2)
     swagger-diff (1.1.2)
       json-schema (~> 2.6)
       rspec-expectations (~> 3.3)
