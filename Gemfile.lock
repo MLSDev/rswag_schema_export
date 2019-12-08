@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rswag_schema_export (0.2.3)
+    rswag_schema_export (0.2.4)
       aws-sdk-s3 (~> 1)
       azure-storage-blob (~> 1.1)
 
@@ -29,17 +29,17 @@ GEM
       zeitwerk (~> 2.2)
     ast (2.4.0)
     aws-eventstream (1.0.3)
-    aws-partitions (1.242.0)
-    aws-sdk-core (3.80.0)
+    aws-partitions (1.251.0)
+    aws-sdk-core (3.84.0)
       aws-eventstream (~> 1.0, >= 1.0.2)
       aws-partitions (~> 1, >= 1.239.0)
       aws-sigv4 (~> 1.1)
       jmespath (~> 1.0)
-    aws-sdk-kms (1.25.0)
+    aws-sdk-kms (1.26.0)
       aws-sdk-core (~> 3, >= 3.71.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.57.0)
-      aws-sdk-core (~> 3, >= 3.77.0)
+    aws-sdk-s3 (1.59.0)
+      aws-sdk-core (~> 3, >= 3.83.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.1)
     aws-sigv4 (1.1.0)
@@ -62,7 +62,7 @@ GEM
     diff-lcs (1.3)
     docile (1.3.2)
     erubi (1.9.0)
-    faraday (0.15.4)
+    faraday (0.17.1)
       multipart-post (>= 1.2, < 3)
     faraday_middleware (0.13.1)
       faraday (>= 0.7.4, < 1.0)
@@ -149,4 +149,4 @@ DEPENDENCIES
   simplecov
 
 BUNDLED WITH
-   1.17.2
+   2.0.2
