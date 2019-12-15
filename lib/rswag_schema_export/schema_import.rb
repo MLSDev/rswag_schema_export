@@ -27,7 +27,11 @@ module RswagSchemaExport
           if ENV["SLACK_WEBHOOK_URL"]
             begin
               changes = Differ.call("#{schema}.previous", schema)
-              Slack::Notifier.new(ENV["SLACK_WEBHOOK_URL"]).post(text: changes) unless changes.nil?
+
+              unless changes.nil?
+                Slack::Notifier.new(ENV["SLACK_WEBHOOK_URL"], username: 'Swagger API Differ').post(
+                  text: '', attachments: [{ color: 'good', text: "_Swagger schema has been updated:_ \n #{changes}"}])
+              end
             rescue StandardError => e
               puts("Slack notification error: #{e}")
             end
