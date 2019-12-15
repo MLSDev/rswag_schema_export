@@ -1,5 +1,3 @@
-require 'swagger/diff'
-
 module RswagSchemaExport
   class Differ
     def self.call(previews_schema, new_schema)
