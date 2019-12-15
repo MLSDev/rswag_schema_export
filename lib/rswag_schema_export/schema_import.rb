@@ -26,7 +26,8 @@ module RswagSchemaExport
           puts("Schema has been successfully imported. Stage: #{client.stage} | Key: #{last_schema_key}")
           if ENV["SLACK_WEBHOOK_URL"]
             begin
-              Slack::Notifier.new(ENV["SLACK_WEBHOOK_URL"]).post(text: Differ.call("#{schema}.previous", schema))
+              changes = Differ.call("#{schema}.previous", schema)
+              Slack::Notifier.new(ENV["SLACK_WEBHOOK_URL"]).post(text: changes) unless changes.nil?
             rescue StandardError => e
               puts("Slack notification error: #{e}")
             end
