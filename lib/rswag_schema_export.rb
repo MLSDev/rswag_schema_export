@@ -5,6 +5,8 @@ require "rswag_schema_export/railtie" if defined?(Rails)
 require "rswag_schema_export/schema_export"
 require "rswag_schema_export/schema_import"
 require "rswag_schema_export/differ"
+require "swagger/diff"
+require "slack-notifier"
 
 module RswagSchemaExport
   def self.configure
