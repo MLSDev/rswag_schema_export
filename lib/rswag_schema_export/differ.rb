@@ -1,7 +1,7 @@
 module RswagSchemaExport
   class Differ
     def self.call(previews_schema, new_schema)
-      diff = Swagger::Diff::Diff.new(previews_schema, new_schema)
+      diff = ::Swagger::Diff::Diff.new(previews_schema, new_schema)
       changes = []
       report = ""
 
