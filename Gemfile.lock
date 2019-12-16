@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rswag_schema_export (0.2.4)
+    rswag_schema_export (0.3.0)
       aws-sdk-s3 (~> 1)
       azure-storage-blob (~> 1.1)
       slack-notifier (~> 2.3.2)
