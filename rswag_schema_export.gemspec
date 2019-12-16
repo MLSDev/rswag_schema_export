@@ -21,6 +21,8 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "aws-sdk-s3", "~> 1"
   spec.add_dependency "azure-storage-blob", "~> 1.1"
+  spec.add_dependency "swagger-diff", "~> 1.1.2"
+  spec.add_dependency "slack-notifier", "~> 2.3.2"
 
   spec.add_development_dependency "bundler", "~> 2.0"
   spec.add_development_dependency "pry"

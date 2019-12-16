@@ -10,6 +10,12 @@ jobs:
           keys:
             - rswag_schema_export-{{ checksum "Gemfile.lock" }}
             - rswag_schema_export-
+      - run:
+          name: Configure Bundler
+          command: |
+            echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
+            source $BASH_ENV
+            gem install bundler:2.0.2
 
       - run:
           name: install dependencies
