@@ -20,7 +20,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "aws-sdk-s3", "~> 1"
-  spec.add_dependency "azure-storage-blob", "~> 1.1"
+  spec.add_dependency "azure-storage-blob", ">= 1.1", "< 3.0"
   spec.add_dependency "swagger-diff", "~> 1.1.2"
   spec.add_dependency "slack-notifier", "~> 2.3.2"
 
